@@ -681,6 +681,10 @@ ul.ev{list-style:none;margin:0;padding:0;display:grid;gap:12px}
 .hero-resume{margin-top:18px;font-size:.92rem;color:var(--ink-3);line-height:1.6}
 .linkbtn{background:none;border:0;padding:0;font:inherit;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .linkbtn:hover{color:var(--t4)}
+.tbl{width:100%;border-collapse:collapse;margin-top:12px}
+.tbl th,.tbl td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--line)}
+.tbl th{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.tbl td .btn{min-height:38px;padding:6px 14px;font-size:.9rem}
 </style>
 </head>
 <body>
@@ -2105,6 +2109,64 @@ function tabParticipantes(C){
   return sub+'<div class="fg" style="margin-bottom:14px"><label for="psel" style="color:var(--ink-3);font-size:.9rem">Participante</label><select id="psel" class="sel" data-change="psel" data-key="psel">'+opts+'</select></div>'+partDetail(cur);
 }
 
+
+function linkFor(tok){ return location.origin+location.pathname+"?p="+tok; }
+function newToken(){ var al="abcdefghjkmnpqrstuvwxyz23456789", a=new Uint8Array(16), s=""; crypto.getRandomValues(a); for(var i=0;i<16;i++) s+=al.charAt(a[i]%al.length); return s; }
+function splitName(line){
+  var t=cleanName(line); if(!t) return null;
+  var i=t.indexOf(" "); if(i<2) return {err:t};
+  var f=cleanName(t.slice(0,i)), l=cleanName(t.slice(i+1));
+  return (f.length>=2 && l.length>=2)? {first:f,last:l} : {err:t};
+}
+function createLinks(){
+  var A=ui.adm, ta=$("#lkNames"); if(!ta) return;
+  var lines=ta.value.split(/\n+/).map(function(x){ return x.trim(); }).filter(Boolean);
+  if(!lines.length){ toast("Escribe al menos un nombre."); return; }
+  if(!store.db){ toast("No hay conexión con el servidor."); return; }
+  var items=[], bad=[];
+  lines.forEach(function(l){ var n=splitName(l); if(n && !n.err) items.push(n); else bad.push(l); });
+  if(bad.length){ A.lkErr="Faltan nombre y apellidos en: "+bad.join("; "); render({keep:true}); return; }
+  A.lkErr=""; A.lkBusy=true; render({keep:true});
+  var now=new Date().toISOString(), made=[];
+  items.reduce(function(p,n){
+    return p.then(function(){
+      var tok=newToken(), data={v:1,pid:genPid(),profile:{first:n.first,last:n.last},updatedAt:now};
+      return store.db.doc("responses/"+tok).set(data).then(function(){ made.push({tok:tok,name:n.first+" "+n.last}); });
+    });
+  }, Promise.resolve()).then(function(){
+    A.lkNew=made.concat(A.lkNew||[]); A.lkBusy=false; ta.value=""; toast(made.length+" enlaces creados."); render({keep:true});
+  }).catch(function(){
+    A.lkNew=made.concat(A.lkNew||[]); A.lkBusy=false; A.lkErr="No se pudieron crear todos los enlaces ("+made.length+" de "+items.length+"). Revisa la lista y vuelve a intentarlo con los que falten."; render({keep:true});
+  });
+}
+function linkRows(){
+  var A=ui.adm, seen={}, rows=[];
+  (A.lkNew||[]).forEach(function(r){ seen[r.tok]=1; rows.push({tok:r.tok,name:r.name,status:"Pendiente de abrir"}); });
+  (A.raw||[]).forEach(function(d){
+    if(seen[d.id]) return; var st=normalizeState(d.data), p=partFrom(d.id,st);
+    rows.push({tok:d.id,name:p.name,status:p.status});
+  });
+  return rows;
+}
+function copyText(t, okMsg){
+  function fb(){ ui.modal={type:"csv", name:"Copia este texto", text:t}; renderModal(); }
+  try{ navigator.clipboard.writeText(t).then(function(){ toast(okMsg||"Copiado."); }, fb); }catch(e){ fb(); }
+}
+function tabEnlaces(C){
+  var A=ui.adm, rows=linkRows();
+  var form='<div class="blk"><h2>Crear enlaces personales</h2><p class="sub">Escribe un participante por línea, con nombre y apellidos. Cada uno recibirá un enlace propio, con su nombre ya puesto, que sirve desde cualquier dispositivo.</p>'+
+    '<textarea id="lkNames" rows="6" placeholder="Ana García López&#10;Luis Pérez Ruiz" style="width:100%;margin-top:10px;border-radius:12px;border:1px solid var(--line-strong);background:var(--surface-2);color:var(--ink);padding:12px;font:inherit"></textarea>'+
+    (A.lkErr? '<p class="note" role="alert" style="color:var(--bad,#ff8a80)">'+esc(A.lkErr)+'</p>' : '')+
+    '<div class="fg" style="margin-top:12px"><button type="button" class="btn btn-primary" data-action="lk-create"'+(A.lkBusy?' disabled':'')+'>'+(A.lkBusy?'Creando…':'Crear enlaces')+'</button></div></div>';
+  var list;
+  if(!rows.length) list='<p class="note">Todavía no hay enlaces ni participantes.</p>';
+  else list='<div class="blk"><div class="ph-row" style="align-items:center"><h2>Enlaces y participantes ('+rows.length+')</h2><button type="button" class="btn" data-action="lk-copyall">Copiar todos (nombre y enlace)</button></div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Nombre</th><th>Estado</th><th>Enlace</th></tr></thead><tbody>'+
+    rows.map(function(r){ return '<tr><td>'+esc(r.name)+'</td><td>'+esc(r.status)+'</td><td><button type="button" class="btn" data-action="lk-copy" data-t="'+esc(r.tok)+'">Copiar enlace</button></td></tr>'; }).join("")+'</tbody></table></div>'+
+    '<p class="note">Envía a cada persona solo su enlace. Quien tenga un enlace puede ver y modificar las respuestas de esa persona.</p></div>';
+  return form+list;
+}
+
 function commentFilter(C){
   var A=ui.adm, q=A.cq.trim().toLowerCase();
   return C.coms.filter(function(c){
@@ -2157,9 +2219,9 @@ function viewEquipo(){
   else if(A.err) status='<div class="banner demo" role="alert">'+warn+'<span>No se pudieron leer las respuestas ('+esc(A.err)+'). Inténtalo de nuevo más tarde.</span></div>';
   else if(A.loading) status='<div class="banner real"><span>'+(A.slow? "Las respuestas tardan en llegar. Puede que los datos que ves no estén al día." : "Cargando respuestas reales…")+'</span></div>';
   else status='<div class="banner real"><span><b>Respuestas reales.</b> Leídas del servidor y actualizadas cada pocos segundos. Participantes registrados: '+all.length+'.</span></div>';
-  var empty = !demo && !A.loading && !A.err && !all.length ? '<p class="note">Todavía no hay participantes registrados. Cuando los socios abran la plataforma y se registren, aparecerán aquí.</p>' : '';
-  var tabs=[["mapa","Impacto × certidumbre"],["resumen","Resumen"],["tendencias","Tendencias"],["priorizacion","Priorización"],["consenso","Consenso"],["capacidades","Capacidades"],["participantes","Participantes"],["comentarios","Comentarios"],["exportar","Exportar"]];
-  var content={mapa:tabMapa, resumen:tabResumen, tendencias:tabTendencias, priorizacion:tabPriorizacion, consenso:tabConsenso, capacidades:tabCapacidades, participantes:tabParticipantes, comentarios:tabComentarios, exportar:tabExportar}[A.tab] || tabResumen;
+  var empty = !demo && !A.loading && !A.err && !all.length && A.tab!=="enlaces" ? '<p class="note">Todavía no hay participantes registrados. Cuando los socios abran la plataforma y se registren, aparecerán aquí.</p>' : '';
+  var tabs=[["mapa","Impacto × certidumbre"],["resumen","Resumen"],["tendencias","Tendencias"],["priorizacion","Priorización"],["consenso","Consenso"],["capacidades","Capacidades"],["participantes","Participantes"],["comentarios","Comentarios"],["enlaces","Enlaces"],["exportar","Exportar"]];
+  var content={mapa:tabMapa, resumen:tabResumen, tendencias:tabTendencias, priorizacion:tabPriorizacion, consenso:tabConsenso, capacidades:tabCapacidades, participantes:tabParticipantes, comentarios:tabComentarios, enlaces:tabEnlaces, exportar:tabExportar}[A.tab] || tabResumen;
   return '<section class="wrap page adm"><header class="page-head"><div class="ph-row"><div><p class="eyebrow">Trend Lab · Solo administradores</p><h1>Trend Lab | Results Dashboard</h1><p class="lead">Cómo valoran los socios las 19 tendencias y qué prioridades identifican. Esta vista muestra nombres y respuestas individuales.</p></div>'+
       '<button type="button" class="btn btn-primary" data-action="adm-tab" data-v="exportar">Exportar resultados</button></div></header>'+
     status+
@@ -2172,7 +2234,7 @@ function viewRegistro(){
   var head='<header class="page-head"><h1>Antes de empezar</h1><p class="lead">Dinos quién eres para que podamos asociar tus respuestas y que puedas retomarlas en cualquier momento.</p></header>';
   var note='<div class="banner real" role="note" style="align-items:flex-start"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none;margin-top:2px"><circle cx="10" cy="10" r="8"/><path d="M10 9v5M10 6v.1"/></svg><span>Escribir un nombre <b>no verifica tu identidad</b>: esta plataforma no te pide iniciar sesión. Tus respuestas quedan vinculadas a tu enlace personal, y el nombre es una etiqueta que escribes tú. Solo los administradores verán tu nombre, apellidos y respuestas.</span></div>';
   if(!editing){
-    return '<section class="wrap page reg">'+head+note+'<div class="blk"><h2>Hola, '+esc(P.first)+'</h2><p class="sub">'+esc(P.first+" "+P.last)+' · Identificador de participante <b>'+esc(state.pid||"—")+'</b>. Si vuelves a abrir el Artifact con la misma cuenta, retomarás tus respuestas sin duplicarlas.</p>'+
+    return '<section class="wrap page reg">'+head+note+'<div class="blk"><h2>Hola, '+esc(P.first)+'</h2><p class="sub">'+esc(P.first+" "+P.last)+' · Identificador de participante <b>'+esc(state.pid||"—")+'</b>. Si vuelves a abrir la plataforma con tu enlace personal, retomarás tus respuestas sin duplicarlas.</p>'+
       '<div class="hero-cta" style="margin-top:18px"><button type="button" class="btn btn-primary btn-lg" data-action="reg-continue">Continuar</button><button type="button" class="btn" data-action="reg-edit">Corregir mi nombre</button></div></div></section>';
   }
   var f=R.first!=null && R.first!==""? R.first : (P? P.first : ""), l=R.last!=null && R.last!==""? R.last : (P? P.last : "");
@@ -2613,6 +2675,9 @@ function act(a, el){
     case "cap-unconfirm": state.caps.confirmed=false; touch(); render({keep:true}); break;
     case "vis-focus": ui.visFocus=d.trend; var vc=$("#visCap"); if(vc) vc.innerHTML=visCapHtml(d.trend); break;
     case "finalize": if(isComplete(state)){ state.finalizedAt=nowIso(); touch(); toast("Respuestas finalizadas. Gracias."); render({keep:true}); } break;
+    case "lk-create": createLinks(); break;
+    case "lk-copy": copyText(linkFor(d.t), "Enlace copiado."); break;
+    case "lk-copyall": copyText(linkRows().map(function(r){ return r.name+"\t"+linkFor(r.tok); }).join("\n"), "Lista copiada."); break;
     case "adm-tab": ui.adm.tab=d.v; render({keep:false}); break;
     case "adm-source": if(d.v==="real" && !(store.canEdit&&store.db)) break; ui.adm.source=d.v; render({keep:true}); break;
     case "adm-blk": ui.adm.blk=+d.v; render({keep:true}); break;
@@ -2773,7 +2838,7 @@ function admSubscribe(){
   try{
     A.sub = store.db.collection("responses").onSnapshot(function(snap){
       clearTimeout(to); A.loading=false; A.slow=false; A.err=null;
-      A.real = buildReal(snap.docs.map(function(d){ return {id:d.id, data:d.data()||{}}; }));
+      A.raw = snap.docs.map(function(d){ return {id:d.id, data:d.data()||{}}; }); A.real = buildReal(A.raw);
       if(route().name==="equipo") render({keep:true});
     }, function(err){
       clearTimeout(to); A.loading=false; A.err=(err&&err.code)||"unavailable"; A.sub=null;
