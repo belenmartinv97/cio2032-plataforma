@@ -23,6 +23,7 @@
   try{ var q=new URLSearchParams(location.search).get("p"); if(q && TOKEN_RE.test(q)){ var prev=lsGet("cio_tok"); if(prev && prev!==q){ try{ localStorage.removeItem("fcc.state.v1"); }catch(_){} } token=q; lsSet("cio_tok",q); } }catch(e){}
   if(!token){ var st=lsGet("cio_tok"); if(st && TOKEN_RE.test(st)) token=st; }
   if(!token){ token=rand(16); lsSet("cio_tok",token); }
+  window.CIO_DELETE = function(tokens){ return rpc("admin_delete",{p_key:ssGet("cio_admin")||"", p_tokens:tokens}); };
   window.CIO_LINK = location.origin + location.pathname + "?p=" + token;
 
   function rpc(name, body){

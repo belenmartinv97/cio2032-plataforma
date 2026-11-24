@@ -2151,6 +2151,19 @@ function copyText(t, okMsg){
   function fb(){ ui.modal={type:"csv", name:"Copia este texto", text:t}; renderModal(); }
   try{ navigator.clipboard.writeText(t).then(function(){ toast(okMsg||"Copiado."); }, fb); }catch(e){ fb(); }
 }
+function delData(which){
+  var A=ui.adm;
+  if(A.delArm!==which){ A.delArm=which; render({keep:true}); clearTimeout(A.delT); A.delT=setTimeout(function(){ if(A.delArm===which){ A.delArm=null; render({keep:true}); } }, 6000); return; }
+  A.delArm=null;
+  var toks=which==="ALL"? linkRows().map(function(r){ return r.tok; }) : [which];
+  if(!window.CIO_DELETE){ toast("No hay conexión con el servidor."); return; }
+  window.CIO_DELETE(toks).then(function(){
+    var gone={}; toks.forEach(function(t){ gone[t]=1; });
+    A.lkNew=(A.lkNew||[]).filter(function(r){ return !gone[r.tok]; });
+    A.raw=(A.raw||[]).filter(function(d){ return !gone[d.id]; }); A.real=buildReal(A.raw);
+    toast(toks.length===1? "Datos eliminados." : toks.length+" participantes eliminados."); render({keep:true});
+  }).catch(function(){ toast("No se pudo eliminar. Revisa que has ejecutado el SQL de borrado en Supabase."); render({keep:true}); });
+}
 function tabEnlaces(C){
   var A=ui.adm, rows=linkRows();
   var form='<div class="blk"><h2>Crear enlaces personales</h2><p class="sub">Escribe un participante por línea, con nombre y apellidos. Cada uno recibirá un enlace propio, con su nombre ya puesto, que sirve desde cualquier dispositivo.</p>'+
@@ -2159,9 +2172,9 @@ function tabEnlaces(C){
     '<div class="fg" style="margin-top:12px"><button type="button" class="btn btn-primary" data-action="lk-create"'+(A.lkBusy?' disabled':'')+'>'+(A.lkBusy?'Creando…':'Crear enlaces')+'</button></div></div>';
   var list;
   if(!rows.length) list='<p class="note">Todavía no hay enlaces ni participantes.</p>';
-  else list='<div class="blk"><div class="ph-row" style="align-items:center"><h2>Enlaces y participantes ('+rows.length+')</h2><button type="button" class="btn" data-action="lk-copyall">Copiar todos (nombre y enlace)</button></div>'+
-    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Nombre</th><th>Estado</th><th>Enlace</th></tr></thead><tbody>'+
-    rows.map(function(r){ return '<tr><td>'+esc(r.name)+'</td><td>'+esc(r.status)+'</td><td><button type="button" class="btn" data-action="lk-copy" data-t="'+esc(r.tok)+'">Copiar enlace</button></td></tr>'; }).join("")+'</tbody></table></div>'+
+  else list='<div class="blk"><div class="ph-row" style="align-items:center"><h2>Enlaces y participantes ('+rows.length+')</h2><div class="fg"><button type="button" class="btn" data-action="lk-copyall">Copiar todos (nombre y enlace)</button><button type="button" class="btn" data-action="lk-delall">'+(A.delArm==="ALL"?'¿Seguro? Eliminar los '+rows.length:'Eliminar todos')+'</button></div></div>'+
+    '<div style="overflow-x:auto"><table class="tbl"><thead><tr><th>Nombre</th><th>Estado</th><th>Enlace</th><th>Datos</th></tr></thead><tbody>'+
+    rows.map(function(r){ return '<tr><td>'+esc(r.name)+'</td><td>'+esc(r.status)+'</td><td><button type="button" class="btn" data-action="lk-copy" data-t="'+esc(r.tok)+'">Copiar enlace</button></td><td><button type="button" class="btn" data-action="lk-del" data-t="'+esc(r.tok)+'">'+(A.delArm===r.tok?"¿Seguro? Eliminar":"Eliminar")+'</button></td></tr>'; }).join("")+'</tbody></table></div>'+
     '<p class="note">Envía a cada persona solo su enlace. Quien tenga un enlace puede ver y modificar las respuestas de esa persona.</p></div>';
   return form+list;
 }
@@ -2690,6 +2703,8 @@ function act(a, el){
     case "finalize": if(isComplete(state)){ state.finalizedAt=nowIso(); touch(); toast("Respuestas finalizadas. Gracias."); render({keep:true}); } break;
     case "lk-create": createLinks(); break;
     case "lk-copy": copyText(linkFor(d.t), "Enlace copiado."); break;
+    case "lk-del": delData(d.t); break;
+    case "lk-delall": delData("ALL"); break;
     case "lk-copyall": copyText(linkRows().map(function(r){ return r.name+"\t"+linkFor(r.tok); }).join("\n"), "Lista copiada."); break;
     case "adm-tab": ui.adm.tab=d.v; render({keep:false}); break;
     case "adm-source": if(d.v==="real" && !(store.canEdit&&store.db)) break; ui.adm.source=d.v; render({keep:true}); break;
