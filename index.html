@@ -2543,7 +2543,8 @@ function exportButtons(who){
   return '<div class="exlist">'+
     '<div class="exrow"><div><b>Descargar informe</b><span>PDF con cada tendencia, sus consecuencias, evidencias (con enlace) y tu votación · .pdf</span></div><button type="button" class="btn" data-action="export-pdf" data-who="'+who+'">Descargar informe</button></div>'+
     '<div class="exrow"><div><b>Exportar resultados</b><span>Archivo de texto UTF-8 en formato Markdown, para pegar en el módulo 04 · Future Scenarios Lab · .txt</span></div><button type="button" class="btn btn-primary" data-action="export-res" data-who="'+who+'">Exportar resultados</button></div>'+
-    (who==="adm"? '<div class="exrow"><div><b>Copiar texto</b><span>Copia la votación como texto, lista para pegar directamente en el módulo 04 · Future Scenarios Lab, sin descargar archivo</span></div><button type="button" class="btn btn-primary" data-action="export-copy" data-who="adm">Copiar texto</button></div>' : '')+'</div>';
+    (who==="adm"? '<div class="exrow"><div><b>Copiar texto</b><span>Copia la votación como texto, lista para pegar directamente en el módulo 04 · Future Scenarios Lab, sin descargar archivo</span></div><button type="button" class="btn btn-primary" data-action="export-copy" data-who="adm">Copiar texto</button></div>'+
+      '<div class="exrow"><div><b>Copiar todos</b><span>Junta en un solo texto la votación de todos los participantes que ya han empezado (cada una empieza con su título), para pegarla de una vez</span></div><button type="button" class="btn" data-action="export-copyall" data-who="adm">Copiar todos</button></div>' : '')+'</div>';
 }
 
 /* ===================== render ===================== */
@@ -2651,6 +2652,13 @@ function act(a, el){
     case "copy-link": copyLink(); break;
     case "save-progress": saveProgress(); break;
     case "resume-file": var pfi=$("#pf"); if(pfi) pfi.click(); break;
+    case "export-copyall":
+      var alls=admAll().filter(function(p){ return p.pg.done>0; });
+      if(!alls.length){ toast("Todavía nadie ha empezado a responder."); break; }
+      var skipped=admAll().length-alls.length, demoA=admSrc()==="demo";
+      copyText(alls.map(function(p){ return resultsTxt({first:p.first, last:p.last, pid:p.pid, st:p.st, demo:demoA}); }).join("\n\n---\n\n"),
+        "Copiadas "+alls.length+" votaciones"+(skipped? " ("+skipped+" sin empezar, no incluidas)." : "."));
+      break;
     case "export-copy": var scp=exportSubject(d.who); if(!scp){ toast("No hay ninguna votación que copiar."); break; } copyText(resultsTxt(scp), "Texto copiado. Pégalo en el módulo 04."); break;
     case "export-pdf": doExport("pdf", d.who); break;
     case "export-res": doExport("txt", d.who); break;
