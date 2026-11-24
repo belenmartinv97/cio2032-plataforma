@@ -47,10 +47,11 @@
       return { onSnapshot:function(ok, err){
         var stop=false, t=null;
         function tick(){
+          if(document.hidden){ t=setTimeout(tick, 15000); return; }   /* pestaña en segundo plano: no consultar */
           rpc("admin_list",{p_key:ssGet("cio_admin")||""}).then(function(rows){
             if(stop) return;
             ok({docs:(rows||[]).map(function(r){ return {id:r.token, data:function(){ return r.data; }}; })});
-            t=setTimeout(tick, 10000);
+            t=setTimeout(tick, 60000);   /* cada minuto, para ahorrar transferencia */
           }).catch(function(e){ stop=true; err(e); });
         }
         tick();
