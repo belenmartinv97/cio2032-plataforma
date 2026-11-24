@@ -1241,7 +1241,7 @@ var LEVELS = [
 /* Certidumbre de 1 a 4 */
 var CERTS = [{id:"alto", label:"Alto", bars:4, score:4},{id:"medio-alto", label:"Medio-alto", bars:3, score:3},{id:"medio-bajo", label:"Medio-bajo", bars:2, score:2},{id:"bajo", label:"Bajo", bars:1, score:1}];
 function cert(id){ for(var i=0;i<CERTS.length;i++){ if(CERTS[i].id===id) return CERTS[i]; } return null; }
-var ESTIMATE = "10 minutos";
+var ESTIMATE = "15 minutos";
 var ALL_TRENDS = [].concat(TERRITORIES[0].trends, TERRITORIES[1].trends, TERRITORIES[2].trends);
 var TOTAL_STEPS = ALL_TRENDS.length + 3 + 1;
 
@@ -1571,9 +1571,9 @@ function viewInicio(){
   var p=progress(state), has=p.done>0 || !!state.startedAt;
   return '<section class="wrap hero hero-v2">'+
     '<div class="hero-head">'+
-      '<h1>The Future CIO - 2032</h1>'+
-      '<p class="hero-sub">Una visión compartida sobre cómo cambiará el papel del CIO de aquí a 2032, construida con las valoraciones de socios y expertos.</p>'+
-      '<p class="hero-body">Vas a explorar las 19 tendencias que pueden transformar el papel del CIO de aquí a 2032, agrupadas en tres dimensiones, y a valorar cuánto impactarán en su rol y con qué grado de certidumbre. También destacarás la tendencia que más pesa en cada dimensión y elegirás las capacidades que, en tu opinión, necesitará el CIO del futuro. Tus valoraciones se sumarán a las de otros socios y expertos para construir juntos el informe CIO 2032 y ver dónde hay consenso y dónde no.</p>'+
+      '<h1>El CIO del Futuro</h1>'+
+      '<p class="hero-sub">Una visión compartida sobre cómo cambiará el papel del CIO de aquí a 2032, construida con las valoraciones de expertos.</p>'+
+      '<p class="hero-body">Vas a explorar un conjunto de tendencias que pueden transformar el rol del CIO de aquí a 2032 y a valorar cuánto impactarán en su rol y con qué grado de certidumbre. También elegirás las capacidades que, en tu opinión, necesitará el CIO del futuro. Tus valoraciones se sumarán a las de otros expertos para construir juntos la visión sobre el CIO de 2032.</p>'+
     '</div>'+
     '<figure class="hero-viz hero-fig" data-focus="">'+heroSvg()+'</figure>'+
     '<div class="hero-access">'+
@@ -1581,10 +1581,10 @@ function viewInicio(){
       '<div class="facts">'+
         '<p><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="8"/><path d="M10 5.5V10l3 2"/></svg><span>Tiempo estimado: '+ESTIMATE+'. Puedes pausar el cuestionario y retomarlo cuando quieras, desde el mismo punto en el que lo dejaste.</span></p>'+
         '<p><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10.5l4 4 8-9"/></svg><span>'+(has? 'Llevas '+p.done+' de '+p.total+' pasos. ' : '')+'Tu progreso se guarda solo, sin que tengas que hacer nada, y podrás volver a cualquier tendencia para cambiar tu valoración cuando quieras.</span></p>'+
-        '<p><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10s2.5-5.5 7-5.5S17 10 17 10s-2.5 5.5-7 5.5S3 10 3 10z"/><circle cx="10" cy="10" r="2.2"/></svg><span>Te pediremos tu nombre y apellidos. Solo los administradores del equipo investigador verán tus respuestas, asociadas a tu nombre y a un identificador de participante. El resto de participantes no verá lo que hayas respondido.</span></p>'+
+        '<p><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10s2.5-5.5 7-5.5S17 10 17 10s-2.5 5.5-7 5.5S3 10 3 10z"/><circle cx="10" cy="10" r="2.2"/></svg><span>Te pediremos tu nombre y apellidos. Solo el equipo de innovación verá tus respuestas, asociadas a tu nombre y a un identificador de participante. El resto de participantes no verá lo que hayas respondido.</span></p>'+
       '</div>'+
       '<div class="hero-cta"><button class="btn btn-primary btn-lg" data-action="'+(has? 'continue' : 'start')+'">Acceder al cuestionario</button></div>'+
-      (window.CIO_ONLINE? '<p class="hero-resume">Tu progreso se guarda solo. Para seguir en otro dispositivo, <button type="button" class="linkbtn" data-action="copy-link">copia tu enlace personal</button>.</p>' : '')+
+      
     '</div>'+
   '</section>';
 }
@@ -1604,12 +1604,12 @@ function tileHtml(t){
     status = state.caps.confirmed? '<b>Selección confirmada</b>' : (done? '<b>'+done+'</b> elegida'+(done===1?'':'s') : "Sin empezar");
     cta = done===0? "Explorar" : (state.caps.confirmed? "Revisar" : "Continuar");
   }
-  var cnt = n<4? t.trends.length+" tendencias" : "6 macrocapacidades";
+  var cnt = n<4? t.trends.length+" tendencias" : "";
   return '<article class="tile t'+n+'">'+
     '<a class="tile-link" href="'+terrHref(n)+'">'+
       '<div class="art">'+art(n)+'</div>'+
       '<div class="tile-body"><div><h2>'+esc(t.name)+'</h2>'+
-        '<p class="tile-meta">'+cnt+'</p><p class="tile-meta">'+status+'</p><p class="tile-cta">'+cta+'</p></div>'+ringSeg(segs, n<4? done : done)+'</div>'+
+        (cnt? '<p class="tile-meta">'+cnt+'</p>' : '')+'<p class="tile-meta">'+status+'</p></div>'+ringSeg(segs, n<4? done : done)+'</div>'+
     '</a>'+extra+'</article>';
 }
 function viewMapa(){
@@ -1783,9 +1783,9 @@ function capPanelHtml(id){
   var om=/^own-(\d+)$/.exec(id||""), ot=om? state.caps.custom[+om[1]] : null;
   if(ot) return '<p class="cn">Capacidad propia</p><h2>'+esc(ot)+'</h2><p>La has añadido tú. Aparece en el panal junto a las seis capacidades del estudio.</p>'+
     (state.caps.confirmed? '' : '<button type="button" class="btn" data-action="cap-custom-del" data-i="'+om[1]+'">Quitar de mi selección</button>');
-  if(!c) return '<p class="cn">Seis macrocapacidades</p><h2>Elige todas las que pesarán en el CIO de 2032</h2><p>Pasa el cursor o toca una capacidad para leer qué significa. Cada toque la añade o la quita de tu selección: puedes elegir las que quieras. Las que añadas tú aparecerán también en el panal.</p>';
+  if(!c) return '<h2>Elige todas las que pesarán en el CIO de 2032</h2><p>Pasa el cursor o toca una capacidad para leer qué significa. Cada toque la añade o la quita de tu selección: puedes elegir las que quieras. Las que añadas tú aparecerán también en el panal.</p>';
   var sel=state.caps.ids.indexOf(id)>-1, lock=state.caps.confirmed;
-  return '<p class="cn">Macrocapacidad</p><h2>'+esc(c.title)+'</h2><p>'+esc(c.text)+'</p>'+
+  return '<h2>'+esc(c.title)+'</h2><p>'+esc(c.text)+'</p>'+
     '<p class="cn2">Qué implica</p><ul class="cimp">'+c.items.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join("")+'</ul>'+
     (lock? '' : '<button type="button" class="btn '+(sel?"":"btn-primary")+'" data-action="cap-toggle" data-id="'+id+'" data-key="cap-panel-btn">'+(sel? "Quitar de mi selección":"Incluir en mi selección")+'</button>');
 }
@@ -1799,7 +1799,7 @@ function viewCapacidades(){
   var conf=state.caps.confirmed, n=capCount(state), full=state.caps.custom.length>=CUSTOM_N;
   var own = conf? '' :
     '<div class="own-box"><label for="capOwn"><b>¿Falta alguna capacidad?</b> <span>Opcional</span></label>'+
-    '<p>Si crees que el CIO de 2032 necesitará una capacidad que no está entre las seis, descríbela con tus palabras. Puedes añadir todas las que quieras.</p>'+
+    '<p>Si crees que el CIO de 2032 necesitará una capacidad que no está entre las seis, escríbela. Puedes añadir todas las que quieras.</p>'+
     '<div class="own-row"><input id="capOwn" type="text" maxlength="'+CUSTOM_MAX+'" data-input="cap-custom" data-key="capOwn" autocomplete="off" placeholder="Por ejemplo: ética de la IA y confianza del cliente" value="'+esc(ui.capCustom||"")+'"'+(full?' disabled':'')+'>'+
     '<button type="button" class="btn" data-action="cap-custom-add"'+(full?' disabled':'')+'>Añadir</button></div></div>';
   return '<section class="wrap page t4"><a class="back" href="#mapa">'+backSvg()+'Mapa</a>'+
@@ -2585,6 +2585,10 @@ function updateStoreNote(){
                  : "Tu progreso se guarda en este navegador. El espacio compartido no está disponible para ti.";
 }
 var toastT=null;
+function copyText(t, okMsg){
+  function fb(){ ui.modal={type:"csv", name:"Copia este texto", text:t}; renderModal(); }
+  try{ navigator.clipboard.writeText(t).then(function(){ toast(okMsg||"Copiado."); }, fb); }catch(e){ fb(); }
+}
 function toast(msg){ var el=$("#toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(toastT); toastT=setTimeout(function(){ el.classList.remove("show"); }, 2800); }
 function renderModal(){
   var m=ui.modal, el=$("#modal");
@@ -2651,6 +2655,7 @@ function act(a, el){
     case "copy-link": copyLink(); break;
     case "save-progress": saveProgress(); break;
     case "resume-file": var pfi=$("#pf"); if(pfi) pfi.click(); break;
+    case "export-copy": var scp=exportSubject(d.who); if(!scp){ toast("No hay ninguna votación que copiar."); break; } copyText(resultsTxt(scp), "Texto copiado. Pégalo en el módulo 04."); break;
     case "export-copyall":
       var alls=admAll().filter(function(p){ return p.pg.done>0; });
       if(!alls.length){ toast("Todavía nadie ha empezado a responder."); break; }
@@ -2658,7 +2663,6 @@ function act(a, el){
       copyText(alls.map(function(p){ return resultsTxt({first:p.first, last:p.last, pid:p.pid, st:p.st, demo:demoA}); }).join("\n\n---\n\n"),
         "Copiadas "+alls.length+" votaciones"+(skipped? " ("+skipped+" sin empezar, no incluidas)." : "."));
       break;
-    case "export-copy": var scp=exportSubject(d.who); if(!scp){ toast("No hay ninguna votación que copiar."); break; } copyText(resultsTxt(scp), "Texto copiado. Pégalo en el módulo 04."); break;
     case "export-pdf": doExport("pdf", d.who); break;
     case "export-res": doExport("txt", d.who); break;
     case "csv-select": var ta=$("#csvtxt"); if(ta){ ta.focus(); ta.select(); } break;
