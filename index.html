@@ -138,6 +138,12 @@ a{color:inherit}
 
 /* Map */
 .tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.tiles.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:1000px){.tiles.three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.tiles.three{grid-template-columns:1fr}}
+.map-sub{display:grid;gap:4px;margin-top:10px;color:var(--ink-2);font-size:1.05rem}
+.map-sub b{color:var(--ink)}
+.cap-head{margin-top:clamp(32px,5vw,64px)}
 @media (max-width:760px){.tiles{grid-template-columns:1fr}}
 .tile{position:relative;border:1px solid var(--line);border-radius:26px;background:var(--surface);overflow:hidden;display:flex;flex-direction:column;transition:border-color .25s}
 .tile:hover,.tile:focus-within{border-color:var(--c)}
@@ -177,9 +183,56 @@ a{color:inherit}
 .nd-row.done .nd-dot{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--surface))}
 .nd-row.cur{background:color-mix(in srgb,var(--c) 8%,transparent)}
 .nd-row.cur .nd-dot{border-color:var(--ink)}
+.nd-row.pr{box-shadow:inset 3px 0 0 var(--c);padding-left:10px;background:color-mix(in srgb,var(--c) 7%,transparent)}
+.nd-row.pr.cur{background:color-mix(in srgb,var(--c) 14%,transparent)}
+.nd-row.pr .nd-dot{background:color-mix(in srgb,var(--c) 32%,var(--surface));border-color:var(--c);color:var(--c-ink)}
+.nd-row.pr .nd-dot svg{fill:currentColor}
+.nd-pill{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;font-size:.74rem;font-weight:700;color:var(--c-ink);border:1px solid var(--c);background:color-mix(in srgb,var(--c) 14%,var(--surface))}
 .nd-title{font-weight:600;line-height:1.25;font-size:.98rem}
 .nd-id{font-weight:700;color:var(--c-ink);margin-right:6px}
 .nd-sub{display:block;margin-top:3px;font-size:.84rem;color:var(--ink-3)}
+.decide-sub{margin-top:8px;max-width:58ch;color:var(--ink-2);font-size:.95rem}
+.tile-sub{margin-top:8px;color:var(--ink-2);font-size:.9rem;line-height:1.35;max-width:28ch}
+.tile-sub b{color:var(--ink)}
+.own-trends{margin-top:18px;display:grid;gap:16px}
+.nd-row.extra .nd-dot{border-style:dashed}
+.own-trends .own-box{margin-top:0}
+.own-card{padding:clamp(16px,2.4vw,26px);border-radius:22px;border:1px solid color-mix(in srgb,var(--c) 30%,var(--line));background:color-mix(in srgb,var(--c) 5%,var(--surface))}
+.own-card header{display:flex;gap:12px;justify-content:space-between;align-items:flex-start}
+.own-card header>div{min-width:0}
+.own-card h3{font-size:1.2rem;line-height:1.25;overflow-wrap:anywhere}
+.oc-tag{display:inline-block;margin-bottom:4px;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);font-weight:600}
+.decide.mini{margin-top:16px;padding:16px;border-radius:18px}
+.decide.mini h4{font-size:1rem;line-height:1.3;font-weight:650}
+.decide.mini .opts{margin-top:12px}
+.own-card .cm-l{display:block;margin-top:16px}
+.prio-foot{margin-top:clamp(28px,4vw,48px);width:100%;padding:clamp(22px,3vw,36px);border-radius:24px;border:1px solid color-mix(in srgb,var(--c) 40%,var(--line));background:color-mix(in srgb,var(--c) 9%,var(--surface));display:grid;gap:10px;justify-items:start}
+.prio-foot h2{font-size:clamp(1.3rem,2.2vw,1.7rem);line-height:1.2;letter-spacing:-.02em;max-width:34ch}
+.prio-foot p{color:var(--ink-2);max-width:60ch}
+.prio-foot .pf-cur{color:var(--ink);font-weight:600}
+.ficha .prio-foot{margin-top:26px;width:auto;padding:14px 18px;border-radius:16px;border:1px solid color-mix(in srgb,var(--c) 35%,var(--line));background:transparent;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 18px}
+.ficha .prio-foot h2{font-size:1.02rem;line-height:1.3;letter-spacing:-.01em;max-width:none;flex:1 1 260px;margin:0}
+.ficha .prio-foot .btn{flex:0 0 auto}
+.wnote{margin:0 0 12px;color:var(--ink-2);font-size:.92rem}
+.cand .cx{grid-column:1;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 16px;margin-top:8px;color:var(--ink-3);font-size:.85rem}
+.cand .cx>span{display:grid;gap:5px;align-content:start}
+.cand .cx small{font-size:.7rem;letter-spacing:.07em;text-transform:uppercase;font-weight:600}
+.cand .cx b{color:var(--ink);font-weight:650}
+.cand .cx span.bar{height:6px;border-radius:3px;background:var(--bg-soft);overflow:hidden;display:block}
+.cand .cx span.bar i{display:block;height:100%;width:var(--w);background:var(--c)}
+.cand .cx span.bar.none i{background:repeating-linear-gradient(135deg,var(--line-strong) 0 3px,transparent 3px 6px);width:100%}
+@media (max-width:520px){.cand .cx{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.vis-fig{position:relative}
+.vtip{position:absolute;z-index:20;width:min(300px,calc(100% - 8px));max-height:320px;overflow:auto;padding:14px 16px;border-radius:16px;background:var(--surface);color:var(--ink);border:1px solid var(--line-strong);box-shadow:0 14px 34px rgba(0,0,0,.28)}
+.vtip[hidden]{display:none}
+.vtip h3{font-size:1rem;line-height:1.25;margin:0 0 8px}
+.vtip dl{display:grid;gap:4px;margin:0}
+.vtip dl div{display:flex;justify-content:space-between;gap:12px;font-size:.88rem}
+.vtip dt{color:var(--ink-3)}
+.vtip dd{margin:0;font-weight:650;text-align:right}
+.vtip .vt-pr{margin-top:8px;font-size:.85rem;font-weight:600}
+.vtip blockquote{margin:10px 0 0;padding:8px 10px;border-radius:10px;background:var(--bg-soft);font-size:.9rem;color:var(--ink-2);overflow-wrap:anywhere}
+.vtip p{margin-top:10px;font-size:.88rem}
 .rail-cta{margin-top:20px;padding:18px;border-radius:18px;border:1px solid color-mix(in srgb,var(--c) 40%,var(--line));background:color-mix(in srgb,var(--c) 8%,var(--surface))}
 .rail-cta p{font-family:var(--font-read);font-size:1.02rem;color:var(--ink-2);margin-bottom:12px}
 .main .empty{border:1px dashed var(--line-strong);border-radius:28px;padding:clamp(28px,5vw,64px);text-align:center;color:var(--ink-2);display:grid;gap:18px;justify-items:center}
@@ -283,6 +336,8 @@ body.is-dragging,body.is-dragging *{cursor:grabbing!important}
 .cand .cb span.bar i{display:block;height:100%;width:var(--w);background:var(--c)}
 .cand .cb span.bar.none i{background:repeating-linear-gradient(135deg,var(--line-strong) 0 3px,transparent 3px 6px);width:100%}
 .cand.pick{border-color:var(--c);background:color-mix(in srgb,var(--c) 12%,var(--surface));box-shadow:inset 0 0 0 1px var(--c)}
+.prio.one{grid-template-columns:minmax(0,860px)}
+.prio.one .cand{cursor:pointer}
 .prio-actions{margin-top:20px;display:flex;gap:12px;flex-wrap:wrap}
 
 /* Capacidades */
@@ -332,7 +387,7 @@ body.is-dragging,body.is-dragging *{cursor:grabbing!important}
 .cap-actions{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 
 /* Vision */
-.vgrid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(22px,4vw,64px);align-items:start}
+.vgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(22px,4vw,64px);align-items:start}
 @media (max-width:980px){.vgrid{grid-template-columns:1fr}}
 .vis-fig svg{display:block;width:100%;max-width:700px;height:auto;margin-inline:auto;overflow:visible}
 .vnode{cursor:pointer}
@@ -343,6 +398,8 @@ body.is-dragging,body.is-dragging *{cursor:grabbing!important}
 .vcap p{margin-top:6px;color:var(--ink-2);font-size:.98rem}
 .vkey{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px 20px;color:var(--ink-3);font-size:.86rem}
 .vkey span{display:inline-flex;align-items:center;gap:8px}
+.vkey2{margin-top:6px}
+.vkey b{color:var(--ink);font-weight:600}
 .vkey svg{width:22px;height:22px}
 .vside{display:grid;gap:30px}
 .vside h2,.vsec h2{font-size:1.2rem;letter-spacing:-.015em;font-weight:650;margin-bottom:12px}
@@ -847,6 +904,10 @@ var CATALOG = {
   "impacto": "Debe establecer capacidades técnicas y organizativas para controlar agentes autónomos, limitar sus actuaciones y determinar quién responde por sus decisiones.",
   "evidencias": [
    {
+    "t": "EY — EY Survey Finds That Autonomous AI Implementation Outpaces Oversight, Yielding an AI Governance Gap",
+    "u": "https://www.ey.com/en_us/newsroom/2026/09/ey-survey-finds-that-autonomous-ai-implementation-outpaces-oversight-yielding-an-ai-governance-gap"
+   },
+   {
     "t": "The Information — The Security Companies Trying to Get AI Agents Under Control",
     "u": "https://www.theinformation.com/articles/security-companies-trying-get-ai-agents-control"
    },
@@ -1260,9 +1321,9 @@ function terrHref(n){ return n===4? "#capacidades" : "#bloque-"+n; }
 var LS_KEY = "fcc.state.v1";
 function cleanName(v){ return typeof v==="string"? v.replace(/\s+/g," ").trim().slice(0,60) : ""; }
 function genPid(){ var a=new Uint8Array(4); try{ crypto.getRandomValues(a); }catch(e){ for(var i=0;i<4;i++) a[i]=Math.floor(Math.random()*256); } return "P-"+Array.prototype.map.call(a,function(b){ return ("0"+b.toString(16)).slice(-2); }).join("").toUpperCase(); }
-var CUSTOM_MAX=160, CUSTOM_N=200;
+var CUSTOM_MAX=160, CUSTOM_N=200, OWN_N=20;
 function capCount(st){ return st.caps.ids.length + (st.caps.custom? st.caps.custom.length : 0); }
-function freshState(){ return {v:1, profile:null, pid:null, startedAt:null, updatedAt:null, ratings:{}, certainty:{}, comments:{}, priorities:{}, caps:{ids:[], custom:[], confirmed:false}, finalizedAt:null, last:null}; }
+function freshState(){ return {v:1, profile:null, pid:null, startedAt:null, updatedAt:null, ratings:{}, certainty:{}, comments:{}, priorities:{}, caps:{ids:[], custom:[], confirmed:false}, own:{1:[],2:[],3:[]}, finalizedAt:null, last:null}; }
 function normalizeState(raw){
   var s = freshState();
   if(!raw || typeof raw!=="object") return s;
@@ -1288,9 +1349,16 @@ function normalizeState(raw){
     if(Array.isArray(raw.caps.custom)){ var cs={}; raw.caps.custom.forEach(function(t){ if(typeof t!=="string") return; t=t.replace(/\s+/g," ").trim().slice(0,CUSTOM_MAX); var k=t.toLowerCase(); if(t && !cs[k] && s.caps.custom.length<CUSTOM_N){ cs[k]=1; s.caps.custom.push(t); } }); }
     s.caps.confirmed = !!raw.caps.confirmed && capCount(s)>0;
   }
+  if(raw.own && typeof raw.own==="object"){
+    [1,2,3].forEach(function(n){ var a=raw.own[n]; if(!Array.isArray(a)) return;
+      a.slice(0,OWN_N).forEach(function(o){ if(!o || typeof o.t!=="string") return; var t=o.t.replace(/\s+/g," ").trim().slice(0,CUSTOM_MAX); if(!t) return;
+        var it={t:t}; if(lvl(o.i) && o.i!=="sin-info") it.i=o.i; if(it.i && cert(o.c)) it.c=o.c; if(typeof o.m==="string" && o.m.trim()) it.m=o.m.slice(0,800); s.own[n].push(it); }); });
+  }
   if(typeof raw.last==="string" && /^(bloque-[1-3]|tendencia-\d{1,2}|prioridad-[1-3]|capacidades)$/.test(raw.last)) s.last = raw.last;
   return s;
 }
+function wscore(r,c){ var l=lvl(r), k=cert(c); if(!l || !l.score || !k) return null; return l.score*k.score/4; }
+function wfmt(v){ return v==null? "Sin certeza" : v.toFixed(1).replace(".",",")+"/4"; }
 function reviewedIn(st, t){ return t.trends.filter(function(id){ return !!st.ratings[id]; }).length; }
 function isComplete(st){
   return ALL_TRENDS.every(function(id){return !!st.ratings[id];}) &&
@@ -1330,7 +1398,7 @@ function touch(){
   updateChrome();
 }
 function serialize(){
-  return JSON.parse(JSON.stringify({v:1, profile:state.profile, pid:state.pid, startedAt:state.startedAt, updatedAt:state.updatedAt, ratings:state.ratings, certainty:state.certainty, comments:state.comments, priorities:state.priorities, caps:state.caps, finalizedAt:state.finalizedAt, last:state.last}));
+  return JSON.parse(JSON.stringify({v:1, profile:state.profile, pid:state.pid, startedAt:state.startedAt, updatedAt:state.updatedAt, ratings:state.ratings, certainty:state.certainty, comments:state.comments, priorities:state.priorities, caps:state.caps, own:state.own, finalizedAt:state.finalizedAt, last:state.last}));
 }
 function flush(){
   if(!store.ref){ setSave("local"); return Promise.resolve(); }
@@ -1531,12 +1599,18 @@ function visionSvg(){
   ALL_TRENDS.forEach(function(id){
     var g=GEO.nodes[id], p=P(RN,g.ang), l=P(RL,g.ang), r=st.ratings[id], t=g.t, pr=(st.priorities[t]===id);
     var lv=lvl(r);
-    s+='<g class="vnode t'+t+'" role="button" tabindex="0" data-action="vis-focus" data-trend="'+id+'" aria-label="'+esc(TITLES[id])+'. '+(lv? esc(lv.label):"Sin valorar")+(pr?". Destacada":"")+'">';
+    s+='<g class="vnode t'+t+'" role="button" tabindex="0" data-action="vis-focus" data-trend="'+id+'" aria-label="'+esc(TITLES[id])+'. Impacto: '+(lv? esc(lv.label):"sin valorar")+'. Certeza: '+(cert(state.certainty[id])? esc(cert(state.certainty[id]).label) : "sin valorar")+(pr?". Destacada":"")+'">';
     s+='<circle cx="'+f1(p[0])+'" cy="'+f1(p[1])+'" r="24" fill="transparent"/>';
     if(pr){ s+='<circle cx="'+f1(p[0])+'" cy="'+f1(p[1])+'" r="'+((radii[r]||5)+8)+'" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="'+f1(p[0])+'" cy="'+f1(p[1])+'" r="'+((radii[r]||5)+13)+'" fill="none" stroke="var(--ink)" stroke-width="1" opacity=".45"/>'; }
     if(!r) s+='<circle class="vk" cx="'+f1(p[0])+'" cy="'+f1(p[1])+'" r="4.5" fill="var(--line-strong)"/>';
     else if(r==="sin-info") s+='<circle class="vk" cx="'+f1(p[0])+'" cy="'+f1(p[1])+'" r="10" fill="none" stroke="var(--ink-3)" stroke-width="2" stroke-dasharray="3 3.5"/>';
-    else s+='<circle class="vk" cx="'+f1(p[0])+'" cy="'+f1(p[1])+'" r="'+radii[r]+'" fill="var(--c)"/>';
+    else {
+      var kk=state.certainty[id], cx=f1(p[0]), cy=f1(p[1]), rr=radii[r];
+      if(kk==="bajo") s+='<circle class="vk" cx="'+cx+'" cy="'+cy+'" r="'+rr+'" fill="none" stroke="var(--c)" stroke-width="2.4" stroke-dasharray="4 3"/>';
+      else if(kk==="medio-bajo") s+='<circle class="vk" cx="'+cx+'" cy="'+cy+'" r="'+rr+'" fill="var(--c)" fill-opacity=".28" stroke="var(--c)" stroke-width="2"/>';
+      else if(kk==="medio-alto") s+='<circle class="vk" cx="'+cx+'" cy="'+cy+'" r="'+rr+'" fill="var(--c)" fill-opacity=".62" stroke="var(--c)" stroke-width="2"/>';
+      else s+='<circle class="vk" cx="'+cx+'" cy="'+cy+'" r="'+rr+'" fill="var(--c)"/>';
+    }
         s+='</g>';
   });
   return s+'</svg>';
@@ -1547,8 +1621,10 @@ function route(){
   var h=(location.hash||"").replace(/^#/,""), m;
   if(!h||h==="inicio") return {name:"inicio"};
   if(h==="mapa") return {name:"mapa"};
-  if((m=h.match(/^bloque-([1-3])$/))) return {name:"bloque", n:+m[1]};
+  if((m=h.match(/^bloque-([1-3])$/))) return {name:"bloque", n:+m[1], auto:true};
+  if((m=h.match(/^lista-([1-3])$/))) return {name:"bloque", n:+m[1]};
   if((m=h.match(/^bloque-4$/))) return {name:"capacidades"};
+  if((m=h.match(/^propuesta-([1-3])$/))) return {name:"bloque", n:+m[1], own:true};
   if((m=h.match(/^tendencia-(\d{1,2})$/))){ var id="T"+m[1]; if(TITLES[id]) return {name:"bloque", n:terrOf(id).n, trend:id}; }
   if((m=h.match(/^prioridad-([1-3])$/))) return {name:"prioridad", n:+m[1]};
   if(h==="capacidades") return {name:"capacidades"};
@@ -1572,7 +1648,7 @@ function viewInicio(){
   return '<section class="wrap hero hero-v2">'+
     '<div class="hero-head">'+
       '<h1>El CIO del Futuro</h1>'+
-      '<p class="hero-sub">Una visión compartida sobre cómo cambiará el papel del CIO de aquí a 2032, construida con las valoraciones de expertos.</p>'+
+      '<p class="hero-sub">Una visión compartida sobre cómo será el CIO en el 2032, construida con las valoraciones de expertos.</p>'+
       '<p class="hero-body">Vas a explorar un conjunto de tendencias que pueden transformar el rol del CIO de aquí a 2032 y a valorar cuánto impactarán en su rol y con qué grado de certidumbre. También elegirás las capacidades que, en tu opinión, necesitará el CIO del futuro. Tus valoraciones se sumarán a las de otros expertos para construir juntos la visión sobre el CIO de 2032.</p>'+
     '</div>'+
     '<figure class="hero-viz hero-fig" data-focus="">'+heroSvg()+'</figure>'+
@@ -1615,9 +1691,11 @@ function tileHtml(t){
 function viewMapa(){
   var p=progress(state), comp=isComplete(state);
   return '<section class="wrap page">'+
-    '<header class="page-head wide"><h1>4 dimensiones a explorar y valorar</h1></header>'+
-    '<div class="tiles">'+TERRITORIES.map(tileHtml).join("")+'</div>'+
-    '<div class="map-foot"><p>'+(comp? 'Has completado todos los pasos. Revisa tu visión y finaliza cuando quieras.' : 'Llevas '+p.done+' de '+p.total+' pasos. Puedes ver cómo va tu visión en cualquier momento.')+'</p><a class="btn '+(comp?'btn-primary':'')+'" href="#vision">Ver mi visión</a></div>'+
+    '<header class="page-head wide"><h1>3 dimensiones a explorar y valorar</h1><p class="lead map-sub"><span><b>Primero</b>, puntúa el impacto y la certeza de las tendencias detectadas.</span><span><b>Segundo</b>, destaca la tendencia más relevante de cada dimensión.</span></p></header>'+
+    '<div class="tiles three">'+TERRITORIES.slice(0,3).map(tileHtml).join("")+'</div>'+
+    '<header class="page-head wide cap-head"><h1>Capacidades y liderazgo a explorar y valorar</h1><p class="lead map-sub"><span><b>Elige</b> las capacidades que necesitará el CIO del futuro.</span></p></header>'+
+    '<div class="tiles three">'+tileHtml(TERRITORIES[3])+'</div>'+
+    '<div class="map-foot"><p>'+(comp? 'Has completado todos los pasos. Revisa tu visión y finaliza cuando quieras.' : 'Llevas '+p.done+' de '+p.total+' pasos. Puedes ver cómo va tu visión en cualquier momento.')+'</p><a class="btn '+(comp?'btn-primary':'')+'" href="#vision">Ver resultados</a></div>'+
   '</section>';
 }
 
@@ -1626,20 +1704,20 @@ function nextAfter(id){
   for(k=1;k<=t.trends.length;k++){ j=(i+k)%t.trends.length; if(t.trends[j]!==id && !state.ratings[t.trends[j]]) return t.trends[j]; }
   return null;
 }
-function railHtml(t, cur){
+function railHtml(t, cur, own){
   var done=reviewedIn(state,t), total=t.trends.length;
   var rows=t.trends.map(function(id){
     var r=state.ratings[id], lv=lvl(r), pr=state.priorities[t.n]===id;
-    var dot = r? (r==="sin-info"? '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7.8 7.8a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1.2.9-1.2 1.8M10 14.6v.1"/></svg>' : '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.4 3.4L15 6.5"/></svg>') : '';
-    return '<li><button type="button" class="nd-row '+(r?"done ":"")+(cur===id?"cur":"")+'" data-action="open-trend" data-trend="'+id+'" data-key="row-'+id+'"'+(cur===id?' aria-current="true"':'')+'>'+
+    var dot = pr? '<svg viewBox="0 0 20 20" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M10 2.6l2.2 4.6 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L2.8 7.9l5-.7z"/></svg>' : r? (r==="sin-info"? '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M7.8 7.8a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1.2.9-1.2 1.8M10 14.6v.1"/></svg>' : '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 10.5l3.4 3.4L15 6.5"/></svg>') : '';
+    return '<li><button type="button" class="nd-row '+(r?"done ":"")+(pr?"pr ":"")+(cur===id?"cur":"")+'" data-action="open-trend" data-trend="'+id+'" data-key="row-'+id+'"'+(cur===id?' aria-current="true"':'')+'>'+
       '<span class="nd-dot">'+dot+'</span>'+
-      '<span><span class="nd-title">'+esc(TITLES[id])+'</span><span class="nd-sub">'+(lv? esc(lv.label) : "Sin revisar")+(pr? ". Destacada":"")+'</span></span></button></li>';
+      '<span><span class="nd-title">'+esc(TITLES[id])+'</span><span class="nd-sub">'+(lv? esc(lv.label) : "Sin revisar")+(pr? '<span class="nd-pill">Destacada</span>':"")+'</span></span></button></li>';
   }).join("");
+  var no=(state.own[t.n]||[]).length;
+  rows+='<li><button type="button" class="nd-row extra '+(no?"done ":"")+(own?"cur":"")+'" data-action="open-own" data-n="'+t.n+'" data-key="row-own-'+t.n+'"'+(own?' aria-current="true"':'')+'>'+
+    '<span class="nd-dot"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M10 5v10M5 10h10"/></svg></span>'+
+    '<span><span class="nd-title">¿Falta alguna tendencia?</span><span class="nd-sub">Opcional'+(no? ' · '+no+(no===1? ' propuesta' : ' propuestas') : '')+'</span></span></button></li>';
   var cta="";
-  if(done===total){
-    var pr=state.priorities[t.n];
-    cta='<div class="rail-cta"><p>'+(pr? 'Tu tendencia destacada es «'+esc(TITLES[pr])+'». Puedes cambiarla.' : 'Has revisado toda la dimensión. Toca decidir cuál destacarías.')+'</p><a class="btn btn-primary" href="#prioridad-'+t.n+'">'+(pr? "Cambiar la destacada":"Elegir la destacada")+'</a></div>';
-  }
   return '<aside class="rail"><a class="back" href="#mapa">'+backSvg()+'Mapa</a>'+
     '<h1>'+esc(t.name)+'</h1>'+
     '<p class="rail-prog">'+done+' de '+total+' tendencias revisadas</p>'+
@@ -1651,6 +1729,9 @@ function accHtml(key, title, count, body){
   var open=ui.open[key];
   return '<div class="acc"><button type="button" class="acc-btn" data-action="acc" data-sec="'+key+'" aria-expanded="'+open+'" data-key="acc-'+key+'"><span>'+title+(count?'<small>'+count+'</small>':'')+'</span>'+chevron()+'</button>'+
     '<div class="acc-panel '+(open?"open":"")+'" id="acc-'+key+'"><div><div class="acc-body">'+body+'</div></div></div></div>';
+}
+function prioFootHtml(t){
+  return '<section class="prio-foot t'+t.n+'" aria-labelledby="pf-'+t.n+'"><h2 id="pf-'+t.n+'">Si solo pudieras destacar una tendencia de esta dimensión, ¿cuál elegirías?</h2><a class="btn btn-primary" href="#prioridad-'+t.n+'">Destacar</a></section>';
 }
 function fichaHtml(id){
   var t=terrOf(id), c=CATALOG[id]||{}, r=state.ratings[id];
@@ -1665,21 +1746,17 @@ function fichaHtml(id){
     var sel = r===l.id, just = ui.just==="rate:"+id+":"+l.id;
     return '<button type="button" class="opt '+(sel?"is-sel ":"")+(just?"just":"")+'" role="radio" aria-checked="'+sel+'" data-l="'+l.id+'" data-action="rate" data-trend="'+id+'" data-level="'+l.id+'" data-key="rate-'+l.id+'">'+barsGlyph(l)+'<span class="opt-l">'+esc(l.label)+'</span></button>';
   }).join("");
-  var after="";
-  if(r){
-    after='<div class="after"><span class="status">'+checkSvg()+'Tendencia revisada</span>'+
-      '<label class="cm-l" for="cm-'+id+'">Comentarios<span class="soft">Opcional</span></label>'+
-      '<textarea class="cm" id="cm-'+id+'" rows="3" maxlength="800" data-input="comment" data-trend="'+id+'" data-key="cm-'+id+'" placeholder="Escribe aquí si quieres aportar algo más.">'+esc(state.comments[id]||"")+'</textarea></div>';
-  } else {
-    after='<p class="hint">Elige una opción para marcar la tendencia como revisada.</p>';
-  }
+  var cmBlock='<label class="cm-l" for="cm-'+id+'">Comentarios<span class="soft">Opcional</span></label>'+
+      '<textarea class="cm" id="cm-'+id+'" rows="3" maxlength="800" data-input="comment" data-trend="'+id+'" data-key="cm-'+id+'" placeholder="Escribe aquí si quieres aportar algo más.">'+esc(state.comments[id]||"")+'</textarea>';
+  var after='<div class="after">'+(r? '<span class="status">'+checkSvg()+'Tendencia revisada</span>' : '<p class="hint">Elige una opción de impacto para marcar la tendencia como revisada.</p>')+cmBlock+'</div>';
   var idx=t.trends.indexOf(id), prev=idx>0? t.trends[idx-1] : null, nx=nextAfter(id);
   var nextBtn;
   if(nx) nextBtn='<button type="button" class="btn '+(r?"btn-primary":"")+'" data-action="open-trend" data-trend="'+nx+'">Siguiente tendencia</button>';
-  else if(reviewedIn(state,t)===t.trends.length) nextBtn='<a class="btn btn-primary" href="#prioridad-'+t.n+'">'+(state.priorities[t.n]? "Revisar la destacada":"Elegir la destacada")+'</a>';
-  else nextBtn='<a class="btn" href="#bloque-'+t.n+'">Volver a la lista</a>';
+  else if(reviewedIn(state,t)===t.trends.length) nextBtn='<span></span>';
+  else nextBtn='<a class="btn" href="#lista-'+t.n+'">Volver a la lista</a>';
   return '<article class="ficha t'+t.n+'">'+
-    '<a class="back mback" href="#bloque-'+t.n+'">'+backSvg()+'Volver a la lista</a>'+
+    '<a class="back mback" href="#lista-'+t.n+'">'+backSvg()+'Volver a la lista</a>'+
+    (reviewedIn(state,t)===t.trends.length && !state.priorities[t.n]? prioFootHtml(t) : '')+
     '<div class="f-id"><i></i><span>'+esc(t.name)+'</span></div>'+
     '<h2 class="f-title">'+esc(TITLES[id])+'</h2>'+
     (c.titulo? '<p class="f-claim">'+esc(c.titulo)+'</p>' : '')+(c.descripcion? '<p class="f-desc">'+esc(c.descripcion)+'</p>' : '')+
@@ -1689,22 +1766,53 @@ function fichaHtml(id){
     '</div>'+
     '<section class="decide" aria-labelledby="q-'+id+'"><h3 id="q-'+id+'">¿Cómo consideras que impactará esta tendencia en el rol del CIO de 2032?</h3>'+
       '<div class="opts" role="radiogroup" aria-labelledby="q-'+id+'">'+opts+'</div></section>'+
-    '<section class="decide cert" aria-labelledby="qc-'+id+'"><h3 id="qc-'+id+'">¿Con qué grado de certidumbre lo valoras?</h3>'+
+    '<section class="decide cert" aria-labelledby="qc-'+id+'"><h3 id="qc-'+id+'">¿Con qué grado de certidumbre lo valoras?</h3><p class="decide-sub">Grado de certidumbre con el que piensas que esta tendencia impactará en el CIO de aquí a 2032.</p>'+
       '<div class="opts" role="radiogroup" aria-labelledby="qc-'+id+'">'+CERTS.map(function(k){ var on=state.certainty[id]===k.id; return '<button type="button" class="opt opt-c '+(on?"is-sel":"")+'" role="radio" aria-checked="'+on+'"'+(r?'':' disabled')+' data-action="cert" data-trend="'+id+'" data-v="'+k.id+'" data-key="cert-'+k.id+'">'+barsGlyph({id:"c",bars:k.bars})+'<span class="opt-l">'+k.label+'</span></button>'; }).join("")+'</div>'+
       (r? '' : '<p class="hint">Primero valora el impacto de la tendencia.</p>')+'</section>'+
     '<section class="decide after-s">'+after+'</section>'+
+    (reviewedIn(state,t)===t.trends.length && state.priorities[t.n] && idx===t.trends.length-1? prioFootHtml(t) : '')+
     '<div class="navbar">'+(prev? '<button type="button" class="btn btn-text" data-action="open-trend" data-trend="'+prev+'">Anterior</button>' : '<span></span>')+nextBtn+'</div>'+
   '</article>';
 }
 function viewBloque(r){
   var t=TERRITORIES[r.n-1];
   var main;
+  if(r.auto && !r.trend && !r.own){
+    var pend=t.trends.filter(function(id){return !state.ratings[id];});
+    r.trend = (pend.length && pend.length<t.trends.length)? pend[0] : t.trends[0];
+  }
   if(r.trend) main=fichaHtml(r.trend);
+  else if(r.own) main='<article class="ficha t'+t.n+'"><a class="back mback" href="#lista-'+t.n+'">'+backSvg()+'Volver a la lista</a><div class="f-id"><i></i><span>'+esc(t.name)+'</span></div>'+ownTrendsHtml(t.n)+'</article>';
   else {
     var first=t.trends.filter(function(id){return !state.ratings[id];})[0] || t.trends[0];
     main='<div class="empty t'+t.n+'"><div class="art">'+art(t.n)+'</div><p>Elige una tendencia de la lista para leerla y valorarla.</p>'+(BLOCKQ[t.n]? '<p class="bq">'+esc(BLOCKQ[t.n])+'</p>' : '')+'<button type="button" class="btn btn-primary" data-action="open-trend" data-trend="'+first+'">'+(reviewedIn(state,t)? "Ir a la siguiente pendiente" : "Empezar por la primera")+'</button></div>';
   }
-  return '<section class="wrap page t'+t.n+'"><div class="work '+(r.trend?"has-trend":"")+'">'+railHtml(t, r.trend)+'<div class="main">'+main+'</div></div></section>';
+  var foot='';
+  return '<section class="wrap page t'+t.n+'"><div class="work '+((r.trend||r.own)?"has-trend":"")+'">'+railHtml(t, r.trend, r.own)+'<div class="main">'+main+'</div></div>'+foot+'</section>';
+}
+var OWN_EX={1:"Por ejemplo: el CIO como socio de negocio en datos",2:"Por ejemplo: auditoría externa obligatoria de la IA",3:"Por ejemplo: equipos mixtos de personas y agentes de IA"};
+function ownTrendsHtml(n){
+  var list=state.own[n]||[], full=list.length>=OWN_N; ui.trCustom=ui.trCustom||{};
+  var cards=list.map(function(o,i){
+    var lo=LEVELS.filter(function(l){ return l.score>0; }).map(function(l){ var sel=o.i===l.id; return '<button type="button" class="opt '+(sel?"is-sel":"")+'" role="radio" aria-checked="'+sel+'" data-action="own-rate" data-n="'+n+'" data-i="'+i+'" data-level="'+l.id+'" data-key="orate-'+n+'-'+i+'-'+l.id+'">'+barsGlyph(l)+'<span class="opt-l">'+esc(l.label)+'</span></button>'; }).join("");
+    var co=CERTS.map(function(k){ var on=o.c===k.id; return '<button type="button" class="opt opt-c '+(on?"is-sel":"")+'" role="radio" aria-checked="'+on+'"'+(o.i?'':' disabled')+' data-action="own-cert" data-n="'+n+'" data-i="'+i+'" data-v="'+k.id+'" data-key="ocert-'+n+'-'+i+'-'+k.id+'">'+barsGlyph({id:"c",bars:k.bars})+'<span class="opt-l">'+k.label+'</span></button>'; }).join("");
+    return '<article class="own-card"><header><div><span class="oc-tag">Tendencia propuesta por ti</span><h3>'+esc(o.t)+'</h3></div><button type="button" class="btn btn-text" data-action="own-del" data-n="'+n+'" data-i="'+i+'">Quitar</button></header>'+
+      '<div class="decide mini"><h4>¿Cómo consideras que impactará esta tendencia en el rol del CIO de 2032?</h4><div class="opts" role="radiogroup">'+lo+'</div></div>'+
+      '<div class="decide mini cert"><h4>¿Con qué grado de certidumbre lo valoras?</h4><p class="decide-sub">Grado de certidumbre con el que piensas que esta tendencia impactará en el CIO de aquí a 2032.</p><div class="opts" role="radiogroup">'+co+'</div>'+(o.i? '' : '<p class="hint">Primero valora el impacto de la tendencia.</p>')+'</div>'+
+      '<label class="cm-l" for="ocm-'+n+'-'+i+'">Comentarios<span class="soft">Opcional</span></label><textarea class="cm" id="ocm-'+n+'-'+i+'" rows="3" maxlength="800" data-input="own-comment" data-n="'+n+'" data-i="'+i+'" data-key="ocm-'+n+'-'+i+'" placeholder="Escribe aquí si quieres aportar algo más.">'+esc(o.m||"")+'</textarea></article>';
+  }).join("");
+  return '<section class="own-trends t'+n+'"><div class="own-box"><label for="trOwn'+n+'"><b>¿Falta alguna tendencia?</b> <span>Opcional</span></label>'+
+    '<p>Si crees que al CIO de 2032 le impactará otra tendencia relacionada con esta dimensión, escríbela. Puedes añadir todas las que quieras.</p>'+
+    '<div class="own-row"><input id="trOwn'+n+'" type="text" maxlength="'+CUSTOM_MAX+'" data-input="tr-custom" data-n="'+n+'" data-key="trOwn'+n+'" autocomplete="off" placeholder="'+esc(OWN_EX[n])+'" value="'+esc(ui.trCustom[n]||"")+'"'+(full?' disabled':'')+'>'+
+    '<button type="button" class="btn" data-action="own-add" data-n="'+n+'"'+(full?' disabled':'')+'>Añadir</button></div></div>'+cards+'</section>';
+}
+function addOwnTrend(n){
+  ui.trCustom=ui.trCustom||{}; var t=String(ui.trCustom[n]||"").replace(/\s+/g," ").trim().slice(0,CUSTOM_MAX);
+  if(!t) return; var a=state.own[n];
+  if(a.length>=OWN_N){ toast("Has llegado al máximo de tendencias propuestas."); return; }
+  if(a.some(function(x){ return x.t.toLowerCase()===t.toLowerCase(); })){ toast("Ya has añadido esa tendencia."); return; }
+  a.push({t:t}); ui.trCustom[n]=""; touch(); render({keep:true});
+  var inp=$("#trOwn"+n); if(inp) inp.focus();
 }
 
 /* Prioridad */
@@ -1714,24 +1822,17 @@ function viewPrioridad(r){
     return '<section class="wrap page t'+n+'"><a class="back" href="#bloque-'+n+'">'+backSvg()+'Volver a la dimensión</a><header class="page-head"><h1>Antes de elegir, termina de revisar la dimensión</h1><p class="lead">Te faltan '+(t.trends.length-reviewedIn(state,t))+' tendencias por valorar en «'+esc(t.name)+'».</p></header><a class="btn btn-primary" href="#bloque-'+n+'">Seguir revisando</a></section>';
   }
   var pick = ui.pick[n]!==undefined? ui.pick[n] : (state.priorities[n]||null);
-  var stage;
-  if(pick){
-    var lv=lvl(state.ratings[pick]);
-    stage='<div class="stage-in" data-k="'+pick+'"><h2 class="stage-t">'+esc(TITLES[pick])+'</h2><div class="stage-r">'+barsGlyph(lv)+'<span>Tu valoración: '+esc(lv.short.toLowerCase())+'</span></div></div>';
-  } else {
-    stage='<div class="stage-empty">Arrastra aquí la tendencia que llevarías al Comité Ejecutivo, o tócala en la lista.</div>';
-  }
+  function crit(lab,l,sc){ var w=l&&sc? Math.round(sc*100/4) : 0; return '<span><small>'+lab+'</small><span class="bar '+(sc?"":"none")+'"><i style="--w:'+w+'%"></i></span><b>'+esc(l? (l.short||l.label) : "Sin valorar")+'</b></span>'; }
   var cands=t.trends.map(function(id){
-    var lv=lvl(state.ratings[id]), w=lv&&lv.score? Math.round(lv.score*100/3) : 0;
+    var lv=lvl(state.ratings[id]), kc=cert(state.certainty[id]), ws=wscore(state.ratings[id], state.certainty[id]);
     return '<button type="button" class="cand '+(pick===id?"pick":"")+'" data-action="pick-prio" data-n="'+n+'" data-trend="'+id+'" aria-pressed="'+(pick===id)+'" data-key="cand-'+id+'">'+
       '<span class="ct">'+esc(TITLES[id])+'</span>'+
-      '<span class="cb"><span class="bar '+(lv&&lv.score?"":"none")+'"><i style="--w:'+w+'%"></i></span><span>'+esc(lv.short)+'</span></span></button>';
+      '<span class="cx">'+crit("Impacto",lv,lv&&lv.score)+crit("Certeza",kc,kc&&kc.score)+'<span class="wp"><small>Resultado ponderado</small><b>'+wfmt(ws)+'</b></span></span></button>';
   }).join("");
-  var saved = state.priorities[n]===pick && pick;
   return '<section class="wrap page t'+n+'"><a class="back" href="#bloque-'+n+'">'+backSvg()+'Volver a la dimensión</a>'+
-    '<header class="page-head"><h1 class="h-q">Si solo pudieras destacar una tendencia de este bloque ante el Comité Ejecutivo, ¿cuál elegirías?</h1><p class="lead">'+esc(t.name)+'. La barra de cada tendencia refleja cómo la valoraste, para que compares de un vistazo.</p></header>'+
-    '<div class="prio"><div class="stage" aria-live="polite"><div class="stage-art" aria-hidden="true">'+art(n)+'</div>'+stage+'</div><div><div class="cands" role="group" aria-label="Tendencias revisadas">'+cands+'</div>'+
-    '<div class="prio-actions"><button type="button" class="btn btn-primary" data-action="confirm-prio" data-n="'+n+'"'+(pick&&!saved?"":" disabled")+'>'+(saved? "Destacada y guardada" : "Destacar ante el Comité")+'</button><a class="btn btn-text" href="#mapa">Volver al mapa</a></div></div></div></section>';
+    '<header class="page-head"><h1 class="h-q">Si solo pudieras destacar una tendencia, ¿cuál elegirías?</h1><p class="lead">De entre las distintas tendencias que conforman esta dimensión, selecciona la que destacarías.</p>'+(state.priorities[n]? '<p class="lead pf-cur">Tu elección actual: «'+esc(TITLES[state.priorities[n]])+'».</p>' : '')+'</header>'+
+    '<div class="prio one"><div><p class="wnote"><b>Resultados ponderados</b> en una escala de 1 a 4: impacto × certeza ÷ 4. Cuanto más cerca de 4, más impacto y con más certeza.</p><div class="cands" role="group" aria-label="Tendencias revisadas">'+cands+'</div>'+
+    (state.priorities[n]? '<div class="navbar"><a class="btn btn-text" href="#bloque-'+n+'">Volver a la dimensión</a><a class="btn btn-primary" href="'+(n===3? '#capacidades' : terrHref(n+1))+'">Continuar</a></div>' : '')+'</div></div></section>';
 }
 
 /* Capacidades */
@@ -1807,7 +1908,7 @@ function viewCapacidades(){
     '<div class="caps"><div class="honey" id="honey">'+honeycombSvg()+'</div>'+
     '<div><div class="cap-panel" id="capPanel">'+capPanelHtml(ui.capFocus)+'</div>'+
     '<div class="tray" id="tray" aria-label="Tu selección">'+capTrayHtml()+'</div>'+own+
-    '<div class="cap-actions">'+(conf? '<span class="status" style="color:var(--t4-ink)">'+checkSvg()+'Selección confirmada</span><button type="button" class="btn" data-action="cap-unconfirm">Modificar selección</button><a class="btn btn-primary" href="#vision">Ver mi visión</a>'
+    '<div class="cap-actions">'+(conf? '<span class="status" style="color:var(--t4-ink)">'+checkSvg()+'Selección confirmada</span><button type="button" class="btn" data-action="cap-unconfirm">Modificar selección</button><a class="btn btn-primary" href="#vision">Ver mis resultados</a>'
         : '<button type="button" class="btn btn-primary" data-action="cap-confirm"'+(n>0?"":" disabled")+'>Confirmar mi selección</button><span class="hint" style="margin:0">'+(n>0? "Has elegido "+n+". Puedes seguir añadiendo o confirmar." : "Elige al menos una para confirmar.")+'</span>')+'</div></div></div></section>';
 }
 
@@ -1818,42 +1919,39 @@ function ratingCounts(st){
 function visCapHtml(id){
   if(!id) return '<h3>Toca un punto para ver tu valoración</h3><p>Cuanto más grande el punto, más impacto esperas. El anillo marca la tendencia que destacarías en cada dimensión.</p>';
   var t=terrOf(id), lv=lvl(state.ratings[id]), pr=state.priorities[t.n]===id, cm=state.comments[id];
-  return '<h3>'+esc(TITLES[id])+'</h3><p>'+(lv? esc(lv.label) : "Todavía sin valorar")+(pr? ". La destacaste ante el Comité Ejecutivo." : ".")+'</p>'+(cm? '<p>«'+esc(cm)+'»</p>':'')+'<p><a href="#tendencia-'+num(id)+'">Revisar esta tendencia</a></p>';
+  return '<h3>'+esc(TITLES[id])+'</h3><p>'+(lv? esc(lv.label) : "Todavía sin valorar")+(pr? ". La destacaste en esta dimensión." : ".")+'</p>'+(cm? '<p>«'+esc(cm)+'»</p>':'')+'<p><a href="#tendencia-'+num(id)+'">Revisar esta tendencia</a></p>';
 }
 function viewVision(){
   var st=state, p=progress(st), comp=isComplete(st), cnt=ratingCounts(st), voted=cnt.alta+cnt.moderada+cnt.limitada+cnt.nula+cnt["sin-info"];
   var ribbon=LEVELS.map(function(l){ return cnt[l.id]? '<i class="lv-'+l.id+'" style="width:'+(cnt[l.id]*100/Math.max(voted,1))+'%" title="'+esc(l.label)+': '+cnt[l.id]+'"></i>':''; }).join("");
   var rl=LEVELS.filter(function(l){ return l.score>0 || cnt[l.id]>0; }).map(function(l){ return '<span><i class="lv-'+l.id+'"></i>'+esc(l.short)+': '+cnt[l.id]+'</span>'; }).join("");
-  var prios=[1,2,3].map(function(n){
-    var id=st.priorities[n], t=TERRITORIES[n-1];
-    return id? '<a class="pitem t'+n+'" href="#prioridad-'+n+'"><span>'+esc(TITLES[id])+'</span><small>'+esc(t.name)+'</small></a>'
-             : '<a class="pitem none t'+n+'" href="#prioridad-'+n+'"><b style="color:var(--ink-3)">Sin elegir</b><span style="font-weight:500">'+esc(t.name)+'</span></a>';
-  }).join("");
-  var capsChips = capCount(st)? st.caps.ids.map(function(id){ var c=CAPS.filter(function(x){return x.id===id;})[0]; return '<a class="cchip" href="#capacidades">'+esc(c.title)+'</a>'; }).join("")+st.caps.custom.map(function(t){ return '<a class="cchip own" href="#capacidades"><em>Propia</em> '+esc(t)+'</a>'; }).join("") : '<a class="pending" href="#capacidades" style="text-decoration:none"><i></i>Aún no has elegido capacidades</a>';
-  var quotes = ALL_TRENDS.filter(function(id){return st.comments[id];}).map(function(id){ var t=terrOf(id); return '<blockquote class="quote t'+t.n+'" style="margin:0"><small>'+esc(TITLES[id])+'</small><p>'+esc(st.comments[id])+'</p></blockquote>'; }).join("");
-  var strips=[1,2,3].map(function(n){
-    var t=TERRITORIES[n-1];
-    return '<div class="strip t'+n+'"><b>'+esc(t.name)+'</b><div class="sch">'+t.trends.map(function(id){
-      var lv=lvl(st.ratings[id]);
-      return '<a class="sc '+(lv?"":"un ")+(st.priorities[n]===id?"pr":"")+'" href="#tendencia-'+num(id)+'" aria-label="'+esc(TITLES[id])+': '+(lv? esc(lv.label):"sin valorar")+'">'+(lv? barsGlyph(lv):'')+'<span>'+esc(TITLES[id])+'</span></a>';
-    }).join("")+'</div></div>';
-  }).join("");
-  var finalHtml;
-  if(st.finalizedAt && comp){
-    finalHtml='<div class="use"><div><h2>Has finalizado. Gracias por tu aportación</h2><p>Tus respuestas ya están con nosotros: no tienes que enviar nada. Si quieres, descarga tu informe personal. Si cambias de opinión, puedes modificar cualquier valoración y se actualizará sola.</p></div><div class="xbtns"><button type="button" class="btn btn-lg" data-action="export-pdf" data-who="me">Descargar informe</button><a class="btn" href="#mapa">Volver al mapa</a></div></div>';
-  } else {
-    finalHtml='<div class="use"><div><h2>Gracias por tu aportación</h2><p>Has llegado al final. Tus respuestas se guardan solas; no tienes que enviar nada. Tus valoraciones, las tendencias que has destacado y tus comentarios se combinarán con las del resto de participantes para construir el informe CIO 2032. Cuando estés conforme, pulsa Finalizar; hasta entonces puedes cambiar cualquier respuesta.</p></div>'+
-      '<button type="button" class="btn btn-lg" data-action="finalize"'+(comp?"":" disabled")+'>Finalizar mis respuestas</button></div>'+
-      (comp? '' : '<p class="warn">Para finalizar te faltan '+(p.total-p.done)+' pasos: valorar todas las tendencias, destacar una por dimensión y confirmar tu selección de capacidades.</p>');
-  }
-  var key='<div class="vkey"><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="10" fill="var(--ink-2)"/></svg>Mucho</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="7.5" fill="var(--ink-2)"/></svg>Bastante</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="5.5" fill="var(--ink-2)"/></svg>Poco</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="3.5" fill="var(--ink-2)"/></svg>Nada</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="5" fill="var(--ink-2)"/><circle r="9" fill="none" stroke="var(--ink)" stroke-width="1.5"/></svg>Destacada</span></div>';
-  return '<section class="wrap page"><header class="page-head"><h1>Tu visión del CIO 2032</h1><p class="lead">'+(comp? 'Así queda tu lectura del futuro del CIO. Revisa lo que quieras y finaliza cuando estés conforme.' : 'Esto es lo que llevas hasta ahora. Puedes volver a cualquier paso para completarlo o cambiarlo.')+'</p></header>'+
-    '<div class="vgrid"><figure class="vis-fig">'+visionSvg()+'<figcaption class="vcap" id="visCap" aria-live="polite">'+visCapHtml(ui.visFocus)+'</figcaption>'+key+'</figure>'+
-    '<div class="vside"><section><h2>Tus tres tendencias destacadas</h2><div class="plist">'+prios+'</div></section>'+
-    '<section><h2>Tus capacidades</h2><div class="cchips">'+capsChips+'</div></section></div></div>'+
-    '<section class="vsec"><h2>Tus aportaciones</h2>'+(quotes? '<div class="quotes">'+quotes+'</div>' : '<span class="pending"><i></i>No has añadido comentarios. Son opcionales.</span>')+'</section>'+
-        finalHtml+'</section>';
+  var key='<div class="vkey"><b>Impacto</b><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="10" fill="var(--ink-2)"/></svg>Mucho</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="7.5" fill="var(--ink-2)"/></svg>Bastante</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="5.5" fill="var(--ink-2)"/></svg>Poco</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="3.5" fill="var(--ink-2)"/></svg>Nada</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="5" fill="var(--ink-2)"/><circle r="9" fill="none" stroke="var(--ink)" stroke-width="1.5"/></svg>Tendencia destacada</span></div>'+
+    '<div class="vkey vkey2"><b>Certeza</b><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="8" fill="var(--ink-2)"/></svg>Alta</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="8" fill="var(--ink-2)" fill-opacity=".62" stroke="var(--ink-2)" stroke-width="2"/></svg>Medio-alta</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="8" fill="var(--ink-2)" fill-opacity=".28" stroke="var(--ink-2)" stroke-width="2"/></svg>Medio-baja</span><span><svg viewBox="-12 -12 24 24" aria-hidden="true"><circle r="8" fill="none" stroke="var(--ink-2)" stroke-width="2.2" stroke-dasharray="4 3"/></svg>Baja</span></div>';
+  return '<section class="wrap page"><header class="page-head"><h1>Tu visión del CIO 2032</h1><p class="lead">Pasa el ratón por cada punto, o tócalo, para ver su detalle: tu valoración, el resultado ponderado y tus comentarios.</p></header>'+
+    '<div class="vgrid"><figure class="vis-fig">'+visionSvg()+'<div class="vtip" id="vtip" hidden role="status" aria-live="polite"></div>'+key+'</figure></div>'+
+    '</section>';
 }
+function vtipHtml(id){
+  var t=terrOf(id), lv=lvl(state.ratings[id]), kc=cert(state.certainty[id]), pr=state.priorities[t.n]===id, cm=state.comments[id];
+  return '<h3>'+esc(TITLES[id])+'</h3>'+
+    '<dl><div><dt>Impacto</dt><dd>'+(lv? esc(lv.label) : "Sin valorar")+'</dd></div><div><dt>Certeza</dt><dd>'+(kc? esc(kc.label) : "Sin valorar")+'</dd></div><div><dt>Valoración ponderada</dt><dd>'+wfmt(wscore(state.ratings[id], state.certainty[id]))+'</dd></div></dl>'+
+    (pr? '<p class="vt-pr">Tendencia destacada en esta dimensión.</p>' : '')+
+    (cm? '<blockquote>'+esc(cm)+'</blockquote>' : '')+
+    '<p><a href="#tendencia-'+num(id)+'">Revisar esta tendencia</a></p>';
+}
+var vtipT=null;
+function showVTip(id, node){
+  var fig=$(".vis-fig"), tip=$("#vtip"); if(!fig||!tip||!id||!node) return;
+  clearTimeout(vtipT); ui.visFocus=id; tip.innerHTML=vtipHtml(id); tip.hidden=false;
+  var fr=fig.getBoundingClientRect(), nr=node.getBoundingClientRect(), w=tip.offsetWidth, h=tip.offsetHeight;
+  var x=nr.left+nr.width/2-fr.left-w/2; x=Math.max(4, Math.min(x, fr.width-w-4));
+  var y=nr.top-fr.top-h-8; if(y<4) y=nr.bottom-fr.top+8;
+  tip.style.left=x+"px"; tip.style.top=y+"px";
+}
+function hideVTip(){ clearTimeout(vtipT); vtipT=setTimeout(function(){ var tip=$("#vtip"); if(tip) tip.hidden=true; }, 260); }
+document.addEventListener("mouseover", function(e){ var n=e.target.closest&&e.target.closest(".vnode"); if(n){ showVTip(n.getAttribute("data-trend"), n); return; } if(e.target.closest&&e.target.closest("#vtip")) clearTimeout(vtipT); });
+document.addEventListener("mouseout", function(e){ var f=e.target.closest&&(e.target.closest(".vnode")||e.target.closest("#vtip")); if(f) hideVTip(); });
+document.addEventListener("focusin", function(e){ var n=e.target.closest&&e.target.closest(".vnode"); if(n) showVTip(n.getAttribute("data-trend"), n); });
 
 function mulberry(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; var t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
 var _demo=null;
@@ -2355,6 +2453,8 @@ function resultsTxt(sub){
   L.push("|----|-----------|---------|-------------|");
   rows.forEach(function(r){ L.push("| "+r.id+" | "+c(r.title)+" | "+r.imp+" | "+r.cert+" |"); });
   L.push("");
+  var ownR=[]; [1,2,3].forEach(function(n){ (sub.st.own&&sub.st.own[n]||[]).forEach(function(o){ var l=lvl(o.i), k=cert(o.c); ownR.push("| "+c(TERRITORIES[n-1].name)+" | "+c(o.t)+" | "+(l? l.label : SIN_RESP)+" | "+(k? k.label : SIN_RESP)+" | "+c(o.m||"")+" |"); }); });
+  if(ownR.length){ L.push("## Tendencias propuestas por el participante",""); L.push("| Dimensión | Tendencia propuesta | Impacto | Certidumbre | Comentario |"); L.push("|-----------|---------------------|---------|-------------|------------|"); ownR.forEach(function(x){ L.push(x); }); L.push(""); }
   L.push("## Capacidades del CIO seleccionadas y añadidas","");
   var cs=sub.st.caps.ids.map(function(id){ return CAPS.filter(function(x){return x.id===id;})[0]; }).filter(Boolean), co=sub.st.caps.custom;
   if(cs.length||co.length){
@@ -2561,7 +2661,7 @@ function exportButtons(who){
 
 /* ===================== render ===================== */
 var VIEWS={inicio:viewInicio, mapa:viewMapa, bloque:viewBloque, prioridad:viewPrioridad, capacidades:viewCapacidades, vision:viewVision, equipo:viewEquipo, registro:viewRegistro};
-var TITLES_PAGE={inicio:"The Future CIO Challenge", mapa:"4 dimensiones a explorar", bloque:"Exploración de tendencias", prioridad:"Desafío de priorización", capacidades:"Capacidades del CIO", vision:"Tu visión del CIO 2032", equipo:"Trend Lab | Results Dashboard", registro:"Registro de participante"};
+var TITLES_PAGE={inicio:"The Future CIO Challenge", mapa:"3 dimensiones a explorar", bloque:"Exploración de tendencias", prioridad:"Desafío de priorización", capacidades:"Capacidades del CIO", vision:"Tu visión del CIO 2032", equipo:"Trend Lab | Results Dashboard", registro:"Registro de participante"};
 function render(opts){
   opts=opts||{};
   var r=route(), app=$("#app"), y=window.scrollY, ae=document.activeElement, fk=ae&&ae.getAttribute&&ae.getAttribute("data-key"), ss=null, se=null;
@@ -2681,6 +2781,7 @@ function act(a, el){
     case "csv-select": var ta=$("#csvtxt"); if(ta){ ta.focus(); ta.select(); } break;
     case "theme": toggleTheme(); break;
     case "open-trend": location.hash="tendencia-"+num(d.trend); break;
+    case "open-own": location.hash="propuesta-"+(+d.n); break;
     case "acc":
       var k=d.sec; ui.open[k]=!ui.open[k];
       el.setAttribute("aria-expanded", ui.open[k]);
@@ -2688,18 +2789,28 @@ function act(a, el){
       break;
     case "rate": rate(d.trend, d.level); break;
     case "cert": if(TITLES[d.trend] && cert(d.v) && state.ratings[d.trend]){ state.certainty[d.trend]=d.v; touch(); render({keep:true}); } break;
-    case "pick-prio": ui.pick[d.n]=d.trend; render({keep:true}); break;
+    case "pick-prio":
+      var pn=+d.n;
+      if(TERRITORIES[pn-1] && TERRITORIES[pn-1].trends.indexOf(d.trend)>-1){
+        state.priorities[pn]=d.trend; ui.pick[pn]=d.trend; if(isComplete(state) && !state.finalizedAt) state.finalizedAt=nowIso(); touch(); toast("Tendencia destacada guardada.");
+        render({keep:true});
+      }
+      break;
     case "confirm-prio":
       var n=+d.n, pk=ui.pick[n];
-      if(pk && TERRITORIES[n-1].trends.indexOf(pk)>-1){ state.priorities[n]=pk; touch(); toast("Tendencia destacada guardada."); go("mapa"); }
+      if(pk && TERRITORIES[n-1].trends.indexOf(pk)>-1){ state.priorities[n]=pk; if(isComplete(state) && !state.finalizedAt) state.finalizedAt=nowIso(); touch(); toast("Tendencia destacada guardada."); go("mapa"); }
       break;
     case "cap-toggle": toggleCap(d.id); break;
-    case "cap-confirm": if(capCount(state)>0){ state.caps.confirmed=true; touch(); toast("Selección confirmada."); render({keep:true}); } break;
+    case "cap-confirm": if(capCount(state)>0){ state.caps.confirmed=true; if(isComplete(state) && !state.finalizedAt) state.finalizedAt=nowIso(); touch(); toast("Selección confirmada."); render({keep:true}); } break;
     case "cap-custom-add": addCustomCap(); break;
+    case "own-add": addOwnTrend(+d.n); break;
+    case "own-del": var oa=state.own[+d.n]; if(oa && oa[+d.i]){ oa.splice(+d.i,1); touch(); render({keep:true}); } break;
+    case "own-rate": var o1=(state.own[+d.n]||[])[+d.i]; if(o1 && lvl(d.level) && d.level!=="sin-info"){ o1.i=d.level; touch(); render({keep:true}); } break;
+    case "own-cert": var o2=(state.own[+d.n]||[])[+d.i]; if(o2 && o2.i && cert(d.v)){ o2.c=d.v; touch(); render({keep:true}); } break;
     case "cap-custom-focus": ui.capFocus=d.id; render({keep:true}); break;
     case "cap-custom-del": if(!state.caps.confirmed){ state.caps.custom.splice(parseInt(d.i,10)||0,1); touch(); render({keep:true}); } break;
     case "cap-unconfirm": state.caps.confirmed=false; touch(); render({keep:true}); break;
-    case "vis-focus": ui.visFocus=d.trend; var vc=$("#visCap"); if(vc) vc.innerHTML=visCapHtml(d.trend); break;
+    case "vis-focus": showVTip(d.trend, el); break;
     case "finalize": if(isComplete(state)){ state.finalizedAt=nowIso(); touch(); toast("Respuestas finalizadas. Gracias."); render({keep:true}); } break;
     case "lk-create": createLinks(); break;
     case "lk-copy": copyText(linkFor(d.t), "Enlace copiado."); break;
@@ -2737,7 +2848,7 @@ function dndClean(){
   dnd=null;
 }
 document.addEventListener("pointerdown", function(e){
-  var c=e.target.closest? e.target.closest(".cand") : null;
+  var c=(e.target.closest && document.querySelector(".prio .stage"))? e.target.closest(".cand") : null;
   if(!c || (e.pointerType==="mouse" && e.button!==0)) return;
   dnd={el:c, id:c.getAttribute("data-trend"), n:c.getAttribute("data-n"), x:e.clientX, y:e.clientY, lx:e.clientX, ly:e.clientY, active:false, touch:e.pointerType==="touch", ghost:null, timer:null};
   if(dnd.touch) dnd.timer=setTimeout(function(){ dndActivate(); }, 330);
@@ -2788,10 +2899,12 @@ document.addEventListener("input", function(e){
   if(kind==="comment"){ var id=t.getAttribute("data-trend"); clearTimeout(cmT); cmT=setTimeout(function(){ setComment(id, t.value); }, 500); }
   else if(kind==="csearch"){ ui.adm.cq=t.value; var l=$("#clist"); if(l) l.innerHTML=commentListHtml(calc(admAll())); }
   else if(kind==="cap-custom"){ ui.capCustom=t.value; }
+  else if(kind==="tr-custom"){ ui.trCustom=ui.trCustom||{}; ui.trCustom[t.getAttribute("data-n")]=t.value; }
+  else if(kind==="own-comment"){ var oo=(state.own[+t.getAttribute("data-n")]||[])[+t.getAttribute("data-i")]; if(oo){ if(t.value.trim()) oo.m=t.value.slice(0,800); else delete oo.m; clearTimeout(cmT); cmT=setTimeout(touch,500); } }
   else if(kind==="reg-first"){ ui.reg.first=t.value; }
   else if(kind==="reg-last"){ ui.reg.last=t.value; }
 });
-document.addEventListener("keydown", function(e){ var t=e.target; if(e.key==="Enter" && t.getAttribute && t.getAttribute("data-input")==="cap-custom"){ e.preventDefault(); addCustomCap(); } });
+document.addEventListener("keydown", function(e){ var t=e.target; if(e.key==="Enter" && t.getAttribute && t.getAttribute("data-input")==="cap-custom"){ e.preventDefault(); addCustomCap(); } if(e.key==="Enter" && t.getAttribute && t.getAttribute("data-input")==="tr-custom"){ e.preventDefault(); addOwnTrend(+t.getAttribute("data-n")); } });
 document.addEventListener("focusout", function(e){
   var t=e.target; if(t.getAttribute && t.getAttribute("data-input")==="comment"){ clearTimeout(cmT); setComment(t.getAttribute("data-trend"), t.value); }
 });
