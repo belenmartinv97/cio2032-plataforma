@@ -1780,6 +1780,7 @@ function viewBloque(r){
   if(r.auto && !r.trend && !r.own){
     var pend=t.trends.filter(function(id){return !state.ratings[id];});
     r.trend = (pend.length && pend.length<t.trends.length)? pend[0] : t.trends[0];
+    try{ history.replaceState(null,"","#tendencia-"+num(r.trend)); }catch(e){}
   }
   if(r.trend) main=fichaHtml(r.trend);
   else if(r.own) main='<article class="ficha t'+t.n+'"><a class="back mback" href="#lista-'+t.n+'">'+backSvg()+'Volver a la lista</a><div class="f-id"><i></i><span>'+esc(t.name)+'</span></div>'+ownTrendsHtml(t.n)+'</article>';
